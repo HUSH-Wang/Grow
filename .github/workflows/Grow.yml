@@ -17,6 +17,8 @@ jobs:
         wget -q `cat $wiki/$drive | xargs` --directory-prefix=download
     - name: Upload your file
       run: |
-        curl -sL https://git.io/file-transfer | sh
-        ./transfer cow ./download/
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ./download/ 2>&1 | tee cowtransfer.log
+        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+
 
